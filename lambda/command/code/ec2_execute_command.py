@@ -5,8 +5,6 @@ import os
 from io import StringIO
 import paramiko
 import boto3
-import base64
-
 
 INSTANCEID = os.environ.get('instance_id')
 IPADDR = os.environ.get('ip_address')
@@ -27,18 +25,18 @@ def run_ec2_command(host, sshuser, sshkey, command):
     - Create SSH connection and execute command
     """
     print("Creating SSH session...")
-    print(sshkey)
-    #Convert string to dummy file type
-    # ssh_key_string = StringIO(sshkey)
-    # private_key = paramiko.PKey(data=base64.b64decode(sshkey))
-    # ssh_key_string.close()
+    ssh_key_string = StringIO(sshkey)
+    private_key = paramiko.RSAKey.from_private_key(ssh_key_string)
     #Make connection
     ssh = paramiko.SSHClient()
-    ssh.connect(host, username=sshuser, pkey=sshkey)
-    (stdout) = ssh.exec_command(str(command))
-    for line in stdout:
-        print(line)
-    ssh.close
+    ssh.load_host_keys(os.path.expanduser('~/.ssh/known_hosts'))
+    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    ssh.connect(host, username=sshuser, pkey=private_key)
+    stdin, stdout, stderr = ssh.exec_command(str(command))
+    result = stdout.read().decode('ascii').strip("\n")
+    print("The server returned the following:-\n" + result)
+    ssh.close()
+
 def main():
     """
     - Run it!
