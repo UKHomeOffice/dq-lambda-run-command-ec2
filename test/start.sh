@@ -3,10 +3,18 @@
 set -e
 
 function create_key {
-         mkdir /tmp/.ssh/
-         ssh-keygen -t rsa -b 1024 -C "test@test.com" -f /tmp/.ssh/test_ssh_key -q -N ""
-         ssh_key=$(cat /tmp/.ssh/test_ssh_key | sed '1 s/^.*$/-----BEGIN RSA PRIVATE KEY-----/' | sed '$ s/^.*$/-----END RSA PRIVATE KEY-----/' | base64)
-         echo "Test SSH key created"
+         mkdir -p /tmp/.ssh/
+         docker run -di -P \
+         --name centos \
+         -v /tmp/.ssh:/tmp \
+         centos:7
+         docker exec centos yum install openssh -y --quiet
+         docker exec centos ssh-keygen -t rsa -b 4096 -C "test@test.com" -f /tmp/test_ssh_key -q -N ""
+         ssh_key=$(docker exec centos cat /tmp/test_ssh_key)
+         echo "Created SSH key"
+         docker stop centos && docker rm centos
+         echo "Cleaned up conatiners"
+
 }
 
 function sshd {
@@ -37,9 +45,10 @@ function python_run {
 }
 
 function cleanup {
-  run=$(docker stop test_sshd && \
-        rm -r /tmp/.ssh
+  echo "Cleanup"
+  run=$(docker stop test_sshd
         )
+        rm -r /tmp/.ssh
         unset ssh_key
 }
 
