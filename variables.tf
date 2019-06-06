@@ -44,4 +44,5 @@ variable "security_group_ids" {
 
 variable "count_tag" {
   description = "Sets the value of count based on module input"
+  default = "0"
 }
