@@ -23,7 +23,7 @@ resource "aws_lambda_function" "lambda_run_ec2_command" {
       SSH_USER      = "${var.ssh_user}"
       SSH_KEY       = "${data.aws_ssm_parameter.ssh_key_private.value}"
       COMMAND       = "${var.command}"
-      SLACK_WEBHOOK = "${var.slack_webook}"
+      SLACK_WEBHOOK = "${data.aws_ssm_parameter.slack_notification_webhook.value}"
     }
   }
 
