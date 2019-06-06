@@ -18,11 +18,12 @@ resource "aws_lambda_function" "lambda_run_ec2_command" {
 
   environment {
     variables = {
-      INSTANCE_ID = "${var.instance_id}"
-      IP_ADDRESS  = "${var.ip_address}"
-      SSH_USER    = "${var.ssh_user}"
-      SSH_KEY     = "${data.aws_ssm_parameter.ssh_key_private.value}"
-      COMMAND     = "${var.command}"
+      INSTANCE_ID   = "${var.instance_id}"
+      IP_ADDRESS    = "${var.ip_address}"
+      SSH_USER      = "${var.ssh_user}"
+      SSH_KEY       = "${data.aws_ssm_parameter.ssh_key_private.value}"
+      COMMAND       = "${var.command}"
+      SLACK_WEBHOOK = "${var.slack_webook}"
     }
   }
 

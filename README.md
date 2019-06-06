@@ -15,6 +15,7 @@ The module is intended to be called by a parent repository, as it requires some 
 | ssh_user | The user that the script will use to connect |
 | command | The command to be run on the remote server |
 | naming_suffix | The naming suffix (...apps-notprod-dq). This is commonly passed in from the Terraform repo that is pulling in the module |
+| slack_webook | Slack webhook for notifications |
 
 ### Example Usage
 ```

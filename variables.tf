@@ -29,3 +29,7 @@ variable "naming_suffix" {
 variable "path_module" {
   default = "unset"
 }
+
+variable "slack_webook" {
+  description = "Slack webhook"
+}

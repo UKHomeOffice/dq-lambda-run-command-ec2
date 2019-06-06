@@ -24,6 +24,7 @@ class TestE2E(unittest.TestCase):
               ip_address        = "10.1.1.1"
               ssh_user          = "my-user"
               command           = "uname -a"
+              slack_webook      = "www.something.com"
             }
         """
         self.result = Runner(self.snippet).result
