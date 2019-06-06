@@ -30,6 +30,14 @@ variable "path_module" {
   default = "unset"
 }
 
-variable "slack_webook" {
-  description = "Slack webhook"
+variable "lambda_subnet" {
+  description = "Lamdda subnet ID"
+}
+
+variable "lambda_subnet_az2" {
+  description = "Lamdda subnet ID"
+}
+
+variable "security_group_ids" {
+  description = "Lambda security group ID"
 }

@@ -16,6 +16,11 @@ resource "aws_lambda_function" "lambda_run_ec2_command" {
   timeout          = "900"
   memory_size      = "196"
 
+  vpc_config = {
+    subnet_ids         = ["${var.lambda_subnet}", "${var.lambda_subnet_az2}"]
+    security_group_ids = "${var.security_group_ids}"
+  }
+
   environment {
     variables = {
       INSTANCE_ID   = "${var.instance_id}"
