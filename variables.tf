@@ -31,11 +31,11 @@ variable "path_module" {
 }
 
 variable "lambda_subnet" {
-  description = "Lamdda subnet ID"
+  description = "Lambda subnet ID"
 }
 
 variable "lambda_subnet_az2" {
-  description = "Lamdda subnet ID"
+  description = "Lambda subnet ID"
 }
 
 variable "security_group_ids" {
