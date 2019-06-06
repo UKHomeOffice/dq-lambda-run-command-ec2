@@ -18,7 +18,7 @@ resource "aws_lambda_function" "lambda_run_ec2_command" {
 
   vpc_config = {
     subnet_ids         = ["${var.lambda_subnet}", "${var.lambda_subnet_az2}"]
-    security_group_ids = "${var.security_group_ids}"
+    security_group_ids = ["${var.security_group_ids}"]
   }
 
   environment {

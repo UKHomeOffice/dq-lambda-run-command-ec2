@@ -17,14 +17,16 @@ class TestE2E(unittest.TestCase):
             module "root_modules" {
               source = "./mymodule"
               providers = {aws = "aws"}
-              namespace         = "dq-test"
-              naming_suffix     = "preprod"
-              path_module       = "unset"
-              instance_id       = "i-1234567890"
-              ip_address        = "10.1.1.1"
-              ssh_user          = "my-user"
-              command           = "uname -a"
-              slack_webook      = "www.something.com"
+              namespace          = "dq-test"
+              naming_suffix      = "preprod"
+              path_module        = "unset"
+              instance_id        = "i-1234567890"
+              ip_address         = "10.1.1.1"
+              ssh_user           = "my-user"
+              command            = "uname -a"
+              lambda_subnet      = "10.1.1.1/24"
+              lambda_subnet_az2  = "10.1.1.1/24"
+              security_group_ids = "sg-1234567890"
             }
         """
         self.result = Runner(self.snippet).result
