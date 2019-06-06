@@ -22,7 +22,7 @@ EOF
 
 resource "aws_iam_role_policy" "lambda-run-command-ec2-policy" {
   name = "lambda-run-command-ec2"
-  role = "${aws_iam_role.lambda-run-command-ec2.id}"
+  role = "${aws_iam_role.lambda-run-command-ec2-role.id}"
 
   policy = <<EOF
 {
@@ -34,13 +34,15 @@ resource "aws_iam_role_policy" "lambda-run-command-ec2-policy" {
       ],
       "Effect": "Allow",
       "Resource": [
-        "arn:aws:ssm:eu-west-2:*:parameter/tableau_server_username"
-        "arn:aws:ssm:eu-west-2:*:parameter/addomainjoin",
-      }
+        "arn:aws:ssm:eu-west-2:*:parameter/tableau_server_username",
+        "arn:aws:ssm:eu-west-2:*:parameter/ssh_key_private"
+      ]
+    }
+  ]
 }
 EOF
 }
 
 resource "aws_iam_instance_profile" "lambda-run-command-ec2-profile" {
-  role = "${aws_iam_role.lambda-run-command-ec2.name}"
+  role = "${aws_iam_role.lambda-run-command-ec2-role.name}"
 }

@@ -36,16 +36,15 @@ function python_build {
 
 function python_run {
          docker run -P --rm --name python-run-command-ec2 \
-         -e ip_address="test_sshd" \
-         -e ssh_user="root" \
-         -e ssh_key="$ssh_key" \
-         -e command="uname -a" \
+         -e IP_ADDRESS="test_sshd" \
+         -e SSH_USER="root" \
+         -e SSH_KEY="$ssh_key" \
+         -e COMMAND="uname -a" \
          --link test_sshd:test_sshd \
          python-run-command-ec2
 }
 
 function cleanup {
-  echo "Cleanup"
   run=$(docker stop test_sshd
         )
         rm -r /tmp/.ssh

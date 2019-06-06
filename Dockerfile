@@ -1,8 +1,8 @@
 FROM python:3.7
 
-ENV ip_address "127.0.0.1"
-ENV ssh_user "root"
-ENV ssh_key "key"
+ENV IP_ADDRESS "127.0.0.1"
+ENV SSH_USER "root"
+ENV SSH_KEY "key"
 ENV COMMAND "uname -a"
 RUN mkdir /temp
 COPY ./lambda/command/code/ec2_execute_command.py /temp/ec2_execute_command.py
