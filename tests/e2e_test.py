@@ -23,7 +23,6 @@ class TestE2E(unittest.TestCase):
               instance_id       = "i-1234567890"
               ip_address        = "10.1.1.1"
               ssh_user          = "my-user"
-              ssh_key           = "some-private-ssh-key"
               command           = "uname -a"
             }
         """
