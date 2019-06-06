@@ -41,3 +41,7 @@ variable "lambda_subnet_az2" {
 variable "security_group_ids" {
   description = "Lambda security group ID"
 }
+
+variable "count_tag" {
+  description = "Sets the value of count based on module input"
+}
