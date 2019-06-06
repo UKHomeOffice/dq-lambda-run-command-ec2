@@ -2,10 +2,13 @@
 - Executes a command on an EC2 instance
 """
 import os
+import sys
+import logging
+import json
+import urllib.request
 from io import StringIO
 import paramiko
 import boto3
-import logging
 
 INSTANCEID = os.environ.get('INSTANCE_ID')
 IPADDR = os.environ.get('IP_ADDRESS')
@@ -26,8 +29,8 @@ def get_ec2_instance_ip_from_id(instanceid):
         ec2 = boto3.client('ec2')
         host = ec2.describe_instances(InstanceIds=[instanceid])['Reservations'][0]['Instances'][0]['PrivateIpAddress']
         return host
-    except:
-        LOGGER.error('Failed to get EC2 instance IP!')
+    except Exception as err:
+        LOGGER.error('Failed to get EC2 instance IP! %s', err)
         sys.exit(1)
 
 def run_ec2_command(host, sshuser, sshkey, command):
@@ -43,11 +46,11 @@ def run_ec2_command(host, sshuser, sshkey, command):
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         ssh.connect(host, username=sshuser, pkey=private_key)
         stdin, stdout, stderr = ssh.exec_command(str(command))
-        result = stdout.read().decode('ascii').strip("\n")
-        LOGGER.info('The server returned the following:\n' + result)
+        result = stdout.read().decode('ascii').strip('\n')
+        LOGGER.info('The server returned the following: %s', result)
         ssh.close()
     except Exception as err:
-        LOGGER.error('SSH connection failed. Error:-\n' + err)
+        LOGGER.error('SSH connection failed. Error: %s', err)
         error = str(err)
         send_message_to_slack(error)
         sys.exit(1)
@@ -60,7 +63,7 @@ def send_message_to_slack(text):
     """
     try:
         post = {
-            "text": ":fire: :sad_parrot: An error has occured in the *OAG* pod :sad_parrot: :fire:",
+            "text": ":fire: :sad_parrot: An error has occured in the run-command-ec2 lambda :sad_parrot: :fire:",
             "attachments": [
                 {
                     "text": "{0}".format(text),
@@ -87,7 +90,7 @@ def send_message_to_slack(text):
     except Exception as err:
         LOGGER.error(
             'The following error has occurred on line: %s',
-            sys.exc_info()[2].tb_lineno)
+            sys.exc_info()[2].tb_lineno + " " + err)
         sys.exit(1)
 
 
@@ -97,11 +100,11 @@ def main():
     """
     LOGGER.info('Starting...')
     if INSTANCEID:
-        get_ec2_instance_ip_from_id(INSTANCEID)
+        host = get_ec2_instance_ip_from_id(INSTANCEID)
         run_ec2_command(host, SSHUSER, SSHKEY, COMMAND)
     else:
-        host = IPADDR
-        run_ec2_command(host, SSHUSER, SSHKEY, COMMAND)
+        ipadd = IPADDR
+        run_ec2_command(ipadd, SSHUSER, SSHKEY, COMMAND)
     LOGGER.info("We're done here")
 
 if __name__ == '__main__':
