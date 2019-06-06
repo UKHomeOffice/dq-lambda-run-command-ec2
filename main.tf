@@ -39,6 +39,7 @@ resource "aws_lambda_function" "lambda_run_ec2_command" {
 }
 
 resource "aws_cloudwatch_log_group" "lambda_run_ec2_command_log_group" {
+  count             = "${var.count_tag}"
   name              = "/aws/lambda/${aws_lambda_function.lambda_run_ec2_command.function_name}"
   retention_in_days = 14
 
