@@ -27,6 +27,7 @@ class TestE2E(unittest.TestCase):
               lambda_subnet      = "10.1.1.1/24"
               lambda_subnet_az2  = "10.1.1.1/24"
               security_group_ids = "sg-1234567890"
+              count_tag          = "1"
             }
         """
         self.result = Runner(self.snippet).result
