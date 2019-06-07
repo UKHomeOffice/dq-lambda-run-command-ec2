@@ -19,7 +19,7 @@ class TestE2E(unittest.TestCase):
               providers = {aws = "aws"}
               namespace          = "dq-test"
               naming_suffix      = "preprod"
-              path_module        = "unset"   
+              path_module        = "unset"
               ip_address         = "10.1.1.1"
               instance_id        = [
                 "i-1234567890",
@@ -39,7 +39,7 @@ class TestE2E(unittest.TestCase):
         self.assertEqual(self.result["destroy"], False)
 
     def test_name_suffix_ops_pipeline_iam_lambda_reconcile(self):
-        self.assertEqual(self.result['root_modules']["aws_lambda_function.lambda_run_ec2_command"]["tags.Name"], "lambda-ec2-command-run-preprod")
+        self.assertEqual(self.result['root_modules']["aws_lambda_function.lambda_run_ec2_command"]["tags.Name"], "lambda-ec2-command-run-i-1234567890-preprod")
 
 
 if __name__ == '__main__':
