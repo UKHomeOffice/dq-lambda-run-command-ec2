@@ -2,9 +2,7 @@ data "archive_file" "lambda_run_ec2_command_zip" {
   type        = "zip"
   source_dir  = "${local.path_module}/lambda/command/code"
   output_path = "${local.path_module}/lambda/command/code/package/lambda.zip"
-
 }
-
 
 resource "aws_lambda_function" "lambda_run_ec2_command" {
   count            = "${var.count_tag}"

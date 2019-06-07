@@ -10,7 +10,6 @@ resource "aws_iam_role" "lambda-run-command-ec2-role" {
       "Principal": {
         "Service": "lambda.amazonaws.com",
         "Serivce": "ec2.amazonaws.com"
-
       },
       "Effect": "Allow",
       "Sid": ""

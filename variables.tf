@@ -1,5 +1,5 @@
 locals {
-  path_module   = "${var.path_module != "unset" ? var.path_module : path.module}"
+  path_module = "${var.path_module != "unset" ? var.path_module : path.module}"
 }
 
 variable "namespace" {
@@ -44,5 +44,5 @@ variable "security_group_ids" {
 
 variable "count_tag" {
   description = "Sets the value of count based on module input"
-  default = "0"
+  default     = "0"
 }
