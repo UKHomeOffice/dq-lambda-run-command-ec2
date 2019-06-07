@@ -1,12 +1,12 @@
 data "archive_file" "lambda_run_ec2_command_zip" {
   type        = "zip"
   source_dir  = "${local.path_module}/lambda/command/code"
-  output_path = "${local.path_module}/lambda/command/code/package/lambda.zip"
+  output_path = "${local.path_module}/lambda/command/package/lambda.zip"
 }
 
 resource "aws_lambda_function" "lambda_run_ec2_command" {
   count            = "${var.count_tag}"
-  filename         = "${local.path_module}/lambda/command/code/package/lambda.zip"
+  filename         = "${local.path_module}/lambda/command/package/lambda.zip"
   function_name    = "run-ec2-command-${var.naming_suffix}"
   role             = "${aws_iam_role.lambda-run-command-ec2-role.arn}"
   handler          = "api.lambda_handler"
