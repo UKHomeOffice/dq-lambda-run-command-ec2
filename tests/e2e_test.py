@@ -19,9 +19,12 @@ class TestE2E(unittest.TestCase):
               providers = {aws = "aws"}
               namespace          = "dq-test"
               naming_suffix      = "preprod"
-              path_module        = "unset"
-              instance_id        = "i-1234567890"
+              path_module        = "unset"   
               ip_address         = "10.1.1.1"
+              instance_id        = [
+                "i-1234567890",
+                "i-1234567890"
+              ]
               ssh_user           = "my-user"
               command            = "uname -a"
               lambda_subnet      = "10.1.1.1/24"
