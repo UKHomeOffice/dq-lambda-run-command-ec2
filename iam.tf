@@ -36,6 +36,15 @@ resource "aws_iam_role_policy" "lambda-run-command-ec2-policy" {
       "Resource": [
         "arn:aws:ssm:eu-west-2:*:parameter/ssh_key_private"
       ]
+    },
+    {
+      "Action": [
+        "ec2:CreateNetworkInterface",
+        "ec2:DescribeNetworkInterfaces",
+        "ec2:DeleteNetworkInterface"
+      ],
+      "Effect": "Allow",
+      "Resource": "*"
     }
   ]
 }
