@@ -8,6 +8,7 @@ variable "namespace" {
 
 variable "instance_id" {
   description = "The ID of the EC2 instnace"
+  type = "list"  
 }
 
 variable "ip_address" {

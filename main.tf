@@ -7,7 +7,7 @@ data "archive_file" "lambda_run_ec2_command_zip" {
 resource "aws_lambda_function" "lambda_run_ec2_command" {
   count            = "${var.count_tag}"
   filename         = "${local.path_module}/lambda/command/code/package/lambda.zip"
-  function_name    = "run-ec2-command-${var.naming_suffix}"
+  function_name    = "run-ec2-command-${element(var.instance_id, count.index)}-${var.naming_suffix}"
   role             = "${aws_iam_role.lambda-run-command-ec2-role.arn}"
   handler          = "api.lambda_handler"
   source_code_hash = "${data.archive_file.lambda_run_ec2_command_zip.output_base64sha256}"
@@ -22,7 +22,7 @@ resource "aws_lambda_function" "lambda_run_ec2_command" {
 
   environment {
     variables = {
-      INSTANCE_ID   = "${var.instance_id}"
+      INSTANCE_ID   = "${element(var.instance_id, count.index)}"
       IP_ADDRESS    = "${var.ip_address}"
       SSH_USER      = "${var.ssh_user}"
       SSH_KEY       = "${data.aws_ssm_parameter.ssh_key_private.value}"
@@ -32,16 +32,16 @@ resource "aws_lambda_function" "lambda_run_ec2_command" {
   }
 
   tags = {
-    Name = "lambda-ec2-command-run-${var.naming_suffix}"
+    Name = "lambda-ec2-command-run-${element(var.instance_id, count.index)}-${var.naming_suffix}"
   }
 }
 
 resource "aws_cloudwatch_log_group" "lambda_run_ec2_command_log_group" {
   count             = "${var.count_tag}"
-  name              = "/aws/lambda/${aws_lambda_function.lambda_run_ec2_command.function_name}"
+  name              = "/aws/lambda/${aws_lambda_function.lambda_run_ec2_command.function_name}-${element(var.instance_id, count.index)}"
   retention_in_days = 14
 
   tags = {
-    Name = "lambda-run-ec2-command-log-group-${var.naming_suffix}"
+    Name = "lambda-run-ec2-command-log-group-${element(var.instance_id, count.index)}-${var.naming_suffix}"
   }
 }
